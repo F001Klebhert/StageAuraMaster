@@ -1,0 +1,25 @@
+name: Build Stage Aura Master
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Get source code
+      uses: actions/checkout@v4
+
+    - name: Prepare CMake
+      run: cmake -B build
+
+    - name: Compile VST3
+      run: cmake --build build --config Release
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Stage_Aura_Master_VST3
+        path: "**/*.vst3"
